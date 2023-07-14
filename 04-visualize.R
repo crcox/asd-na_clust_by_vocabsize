@@ -46,13 +46,39 @@ df_plot <- tibble(
     group = gl(2, nrow(df), labels = c("non-autistic", "autistic")),
     vocab_size = c(df$not_autistic, df$autistic),
     clust = c(df$clust_na, df$clust_asd),
+    clust_rand = c(df$clust_rand_na, df$clust_rand_asd),
     clust_norm = c(df$clust_na - df$clust_rand_na, df$clust_asd - df$clust_rand_asd)
 )
 
+ggplot(df_plot, aes(x = vocab_size, y = clust_rand, color = group)) +
+    geom_point() +
+    geom_smooth() +
+    xlab("Model-estimated VSOA") +
+    ylab("Vocabulary size adjusted\nlocal clustering coefficient") +
+    ggtitle("Uniform Random Acquisition") +
+    theme_bw(base_size = 18)
+
+ggsave("unif-rand-acq.png", width = 8, height = 5, dpi = 300)
+
 ggplot(df_plot, aes(x = vocab_size, y = clust, color = group)) +
     geom_point() +
-    geom_smooth()
+    geom_smooth() +
+    xlab("Model-estimated VSOA") +
+    ylab("Vocabulary size adjusted\nlocal clustering coefficient") +
+    ggtitle("Windowed-Distribution (ppt) Random Acquisition") +
+    theme_bw(base_size = 18)
 
+ggsave("ppt-rand-acq.png", width = 8, height = 5, dpi = 300)
+
+ggplot(df_plot, aes(x = vocab_size, y = clust - clust_rand, color = group)) +
+    geom_point() +
+    geom_smooth() +
+    xlab("Model-estimated VSOA") +
+    ylab("Vocabulary size adjusted\nlocal clustering coefficient") +
+    ggtitle("ppt - uniform Random Acquisition") +
+    theme_bw(base_size = 18)
+
+ggsave("ppt_unif-rand-acq.png", width = 8, height = 5, dpi = 300)
 
 # maybe? ----
 models <- readRDS("models/base_models.rds")
