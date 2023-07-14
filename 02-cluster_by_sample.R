@@ -9,7 +9,7 @@ g <- upgrade_graph(readRDS("data/child_net_graph.rds"))
 vid_lookup <- tibble(
     vid = 1:vcount(g),
     word = names(V(g))
-) %>% left_join(select(m, word, num_item_id))
+) %>% left_join(select(m, word = cue_CoxHae, num_item_id))
 saveRDS(vid_lookup, file = "samples/vid_lookup.rds")
 
 samples_vid <- readRDS("samples/samples-ppt.rds") %>%
