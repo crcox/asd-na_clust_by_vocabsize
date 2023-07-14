@@ -16,15 +16,15 @@ tmp <- map(35:567, function(i, window_size) {
 }, window_size = 31)
 
 samples <- map2(tmp, 35:567, function(df, n) {
-    map(1:1000, function(i, df) {
+    map(1:1000, function(i, df, n) {
         sample(df$num_item_id, size = n, replace = FALSE, prob = df$p)
-    }, df = df)
+    }, df = df, n = n)
 })
 
 samples_rand <- map(35:567, function(n) {
-    map(1:1000, function(i) {
+    map(1:1000, function(i, n) {
         sample(675, size = n, replace = FALSE)
-    })
+    }, n = n)
 })
 
 saveRDS(samples, "samples/samples-ppt.rds")
